@@ -16,10 +16,15 @@ class WeatherScreen extends StatelessWidget {
         title: Text('Bloc practice app'),
       ),
       body: StreamBuilder<WeatherData>(
+        initialData: WeatherData('Look outside or press the button ^^'),
         stream: _weatherBloc.weatherStream,
-        builder: (context,snapshot){
-          print(snapshot);
-          return Text(snapshot.data?.weatherDescription ?? 'Needs data');},
+        builder: (context,snapshot) {
+          if (snapshot.hasData)
+            return Text(snapshot.data.weatherDescription);
+          else if (snapshot.hasError)
+            return Text(snapshot.error.toString());
+          else return Text(snapshot.connectionState.toString());
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
