@@ -1,4 +1,5 @@
 import 'package:bloc_practic_app/blocs/weather_bloc.dart';
+import 'package:bloc_practic_app/repository/weather_repository.dart';
 import 'package:bloc_practic_app/screens/weather_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,8 +17,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<WeatherBloc>(
-          create: (context) => WeatherBloc(), child: WeatherScreen()),
+      home: RepositoryProvider<WeatherRepository>(
+        create: (context) => WeatherRepository(),
+        child: BlocProvider<WeatherBloc>(
+            create: (context) =>
+                WeatherBloc(RepositoryProvider.of<WeatherRepository>(context)),
+            child: WeatherScreen()),
+      ),
     );
   }
 }
