@@ -7,8 +7,8 @@ import 'package:bloc_practic_app/repository/weather_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherBloc extends Bloc<WeatherEvent, WeatherData> {
-  WeatherBloc(WeatherRepository weatherRepository)
+class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
+  WeatherBloc({@required WeatherRepository weatherRepository})
       : assert(weatherRepository != null),
         _weatherRepository = WeatherRepository(),
         super(WeatherInitial());
