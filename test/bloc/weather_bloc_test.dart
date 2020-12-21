@@ -1,4 +1,6 @@
 import 'package:bloc_practic_app/blocs/weather_bloc.dart';
+import 'package:bloc_practic_app/blocs/weather_events.dart';
+import 'package:bloc_practic_app/models/weather_data.dart';
 import 'package:bloc_practic_app/repository/weather_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,6 +22,20 @@ void main() {
         'Given a weather bloc, When weatherRepository is null, Then assertion error should be thrown',
         () {
       expect(() => WeatherBloc(weatherRepository: null), throwsAssertionError);
+    });
+
+    group('Tests to event: getWeather', () {
+      blocTest(
+          'emits [WeatherInitial, WeatherLoadInProgress, WeatherLoadSuccess], When getWeather is added and succeds',
+          build: () {
+            when(weatherRepository.getWeather()).thenAnswer((realInvocation) =>
+                Future.value(WeatherData('Oh look a test weather')));
+            return weatherBloc;
+          },
+          act: (WeatherBloc bloc) => bloc.add(WeatherEvent.getWeather),
+          expect: [
+            weatherBloc.
+          ]);
     });
   });
 }
