@@ -1,6 +1,6 @@
 import 'package:bloc_practic_app/blocs/weather_bloc.dart';
 import 'package:bloc_practic_app/blocs/weather_events.dart';
-import 'package:bloc_practic_app/models/weather_data.dart';
+import 'package:bloc_practic_app/blocs/weather_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,16 +15,20 @@ class WeatherScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Bloc practice app'),
       ),
-      body: StreamBuilder<WeatherData>(
-        initialData: WeatherData('Look outside or press the button ^^'),
-        stream: _weatherBloc.weatherStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData)
-            return Text(snapshot.data.weatherDescription);
-          else if (snapshot.hasError)
-            return Text(snapshot.error.toString());
+      body: BlocConsumer<WeatherBloc, WeatherState>(
+        listener: (context, state) {
+          if (state is WeatherLoadInProgress) Text('LOADING, PLS WAIT');
+        },
+        builder: (context, state) {
+          if (state is WeatherLoadSuccess)
+            return Text(state.weatherData.weatherDescription);
+          else if (state is WeatherLoadFailure)
+            return Text('Failed to load the weather, pls try again');
+          else if (state is WeatherInitial)
+            return Text(
+                'Yeah, there should be some info about weather here, probably went missing.. Try pressing the button in bottom right :)');
           else
-            return Text(snapshot.connectionState.toString());
+            return Text('Well, something is happening.. pls wait :)');
         },
       ),
       floatingActionButton: FloatingActionButton(
