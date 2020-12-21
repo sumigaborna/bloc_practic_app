@@ -18,10 +18,12 @@ void main() {
   group('Weather bloc tests', () {
     WeatherRepository weatherRepository;
     WeatherBloc weatherBloc;
+    http.Client client;
 
     setUp(() {
       weatherRepository = MockWeatherRepository();
       weatherBloc = WeatherBloc(weatherRepository: weatherRepository);
+      client = MockClient();
     });
 
     test(
@@ -38,7 +40,7 @@ void main() {
           //BEFORE YOU RUN THE TEST, IN "MOCK_OPEN_WEATHER_RESPONSE" CHANGE WEATHER DESCRIPTION ("description") TO THE ONE THAT WAS LAST DISPLAYED ON THE DEVICE, OTHERWISE TEST WILL NOT PASS
           'emits [WeatherLoadInProgress, WeatherLoadSuccess], When getWeather is added and succeeds',
           build: () {
-            when(weatherRepository.getWeather())
+            when(weatherRepository.getWeather(client))
                 .thenAnswer((_) => Future.value(weatherData));
             return weatherBloc;
           },
