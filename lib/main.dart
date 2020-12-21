@@ -20,8 +20,9 @@ class MyApp extends StatelessWidget {
       home: RepositoryProvider<WeatherRepository>(
         create: (context) => WeatherRepository(),
         child: BlocProvider<WeatherBloc>(
-            create: (context) =>
-                WeatherBloc(RepositoryProvider.of<WeatherRepository>(context)),
+            create: (context) => WeatherBloc(
+                weatherRepository:
+                    RepositoryProvider.of<WeatherRepository>(context)),
             child: WeatherScreen()),
       ),
     );
