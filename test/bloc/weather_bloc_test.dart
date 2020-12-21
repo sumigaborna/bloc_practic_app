@@ -35,7 +35,8 @@ void main() {
       var weatherData = WeatherData(
           jsonDecode(_successResponse.body)['weather'][0]['description']);
       blocTest(
-          'emits [WeatherInitial, WeatherLoadInProgress, WeatherLoadSuccess], When getWeather is added and succeeds',
+          //BEFORE YOU RUN THE TEST, IN "MOCK_OPEN_WEATHER_RESPONSE" CHANGE WEATHER DESCRIPTION ("description") TO THE ONE THAT WAS LAST DISPLAYED ON THE DEVICE, OTHERWISE TEST WILL NOT PASS
+          'emits [WeatherLoadInProgress, WeatherLoadSuccess], When getWeather is added and succeeds',
           build: () {
             when(weatherRepository.getWeather())
                 .thenAnswer((_) => Future.value(weatherData));
