@@ -19,7 +19,7 @@ void main() {
     });
 
     test(
-        'Given a call to getWeather, When response is successful, Then getWeather should return an exception',
+        'Given a call to getWeather, When response fails, Then getWeather should return an exception',
         () async {
       when(client.get(OPENWEATHER_URL))
           .thenAnswer((_) async => http.Response('Not Found', 404));
