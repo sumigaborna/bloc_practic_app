@@ -28,7 +28,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     yield WeatherLoadInProgress();
     try {
       //THIS IS BAD, YOU DON'T WANT BLOC TO KNOW ABOUT HTTP CLIENT!!!
-      final weather = await _weatherRepository.getWeather(new http.Client());
+      final weather = await _weatherRepository.getWeather();
       var weatherData = WeatherData(weather['weather'][0]['description']);
       yield WeatherLoadSuccess(weatherData: weatherData);
     } catch (e) {
